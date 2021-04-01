@@ -5,6 +5,7 @@ volatile unsigned int rotVal = 0;
 
 
    void lecturCodeur(void) {
+    Serial.print("codeur moov");
   // Switch Led state
   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 
@@ -20,9 +21,11 @@ volatile unsigned int rotVal = 0;
   if ((millis() - dateDernierChangement) > dureeAntiRebond) {
     if (digitalRead(pinEncodeurB) == HIGH) {
       rotVal++;
+      rotVal=rotVal+incrementC;
     }
     else {
       rotVal--;
+      rotVal=rotVal-incrementC;
     }
     dateDernierChangement = millis();
   } ;  
@@ -30,11 +33,18 @@ volatile unsigned int rotVal = 0;
 
                               }
 
-  int Selectcodeur(int nbselect){
+  int Selectcodeur(unsigned int de,unsigned int a,boolean modeinf){
+  
 
-
-  if (rotVal< 0){rotVal = nbselect;}
-  if (rotVal> nbselect){rotVal =  0;}
+  if (rotVal< de){   
+    
+                    if(modeinf==1){rotVal = a;}
+                    else{rotVal = de;}
+                }
+  if (rotVal> a){
+                    if(modeinf==1){rotVal = de;}
+                    else{rotVal = a;}
+                }
   
   return rotVal;
 }

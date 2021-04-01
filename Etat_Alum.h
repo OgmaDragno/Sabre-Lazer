@@ -1,78 +1,79 @@
- int ok=333;
-unsigned char seq=0;
+
+unsigned char seq1;
 
  void Etat_Alum(boolean bouton){
                    Serial.print("Alum   ");
+ 
   
-  
-                 switch(seq){
+                 switch(seq1){
 
                           ///////////Ouverture
                           case 0:
                                       delay(333);
                                       player.play(1);
-                                      seq++;
-                                      delay(10);
+                                      seq1++;
+                                      
                           break;
                           case 1:
                                       lum(5,233);
-                                     seq++;
+                                      seq1++;
                           break;
-                          case 2:Serial.print("OK"); if(Crono(600)==0){seq++;} break;
+                          case 2:Serial.print("OK"); if(Crono(1000)==0){seq1++;} break;
                           
                           case 3:
                                      nocolor();
-                                     seq++;
+                                     seq1++;
                           break;
-                          case 4: Serial.print("attente"); if(Crono(625)==0){seq++;} break;
+                          case 4: Serial.print("attente"); if(Crono(650)==0){seq1++;} break;
                                      
                           case 5:    
                                      Serial.print("lame");
                                      opensabr(0);
-                                     if(Crono(25)==0){seq++;}
+                                     if(Crono(25)==0){seq1++;}
                                      
                           break;
                           case 6:
                                    Serial.print("lameeffet increment");
-                                   if(Crono(1000)==0){seq++;}
-
+                                   if(Crono(100)==0){seq1++;}//2300
+                                   effetwomble(coul1sabre,coul2sabre,0,5);
                                    //AFAIREEEEEEEEEEEEEEEEEEE
                           break;
 
 
                           ///////////statik
                           
-                          case 7:player.loop(2); seq++;
+                          case 7:delay(10);player.loop(2);delay(10); seq1++;
                           break;
                           case 8: 
                                    
                                    Serial.print("lame wimble   Statik    moov=");
                                    //AFAIRE LED EFFECT
+                                   effetwomble(coul1sabre,coul2sabre,0,5);
 
                                    Gyro();
                                    
                                    Serial.print(moov);
-                                   if(moov==1){seq++;}
+                                   if(moov==1){seq1++;}
                           break;
 
                           ///////////Mouvement
                           
                           case 9:
-                                 player.play(3);seq++;
+                                 player.play(3);seq1++;
                           break;
                           case 10:
                                  Serial.print("lame Mov");
                                    //AFAIRE LED EFFECT
 
                                  Gyro();
-                                 if(moov==0){seq=7;delay(3000);}
+                                 if(moov==0){seq1=7;delay(3000);}
                           break;
 
 
                          ///////////Fermeture
                           
-                          case 33:player.play(5);
-                          seq++;
+                          case 33:delay(10);player.play(5);delay(10);
+                          seq1++;
                                  
                                    //AFAIRE LED EFFECT
 
@@ -80,16 +81,23 @@ unsigned char seq=0;
                           break;
 
                           case 34:
-                               Serial.print("Fermeture lamm");
-                               if (bouton==0){seq=7;}
-                               if(Crono(4000)==0){seq++;}
+                               Serial.print("Rengainer");
+                               fermsabr(aten,seq1);
+                               if (btnT()==0){seq1=7;}
+                               else{seq1++;aten=1;Serial.print(" OK");delay(1000);}
+                               
+                               
                           break;
                           case 35:
                               Serial.print("Fermeture definitif");
+                              nocolor();
+                              Etat=Etein;
+                              seq1=0;
+                              delay(1000);
                           break;
                            }
-if(seq>6 && seq<33){
-       if(Kbouton(2,bouton,1500)==1){seq=33;}
+if(seq1>3 && seq1<33){
+       if(Kbouton(2,bouton,200)==1){seq1=33;}
        
   }
   
