@@ -2,7 +2,8 @@
 
 
 
-enum {menu=0,skinselect=60,skinconf=90,skinregl=120,volum=150,sensi=180,sensiconf=210,sensiregl=240}seq=menu;
+enum  seqence{menu=0,skinselect=60,skinconf=90,skinregl=120,volum=150,sensi=180,sensiconf=210,sensiregl=240};
+char seq;
 boolean menus=0;
 unsigned char weriscolor;
 
@@ -11,7 +12,7 @@ unsigned char weriscolor;
 
   
   void Etat_Menu(){
-
+                    digitalWrite(0, HIGH);
                         
 
                    Serial.print(" Menu ");
@@ -36,27 +37,29 @@ unsigned char weriscolor;
 
                    switch(seq){
                                 //________________MENU Genera lvl1
-                                case menu: Serial.print("Quiter ");if(menus==0){player.play(6);menus=1;}else{sonmenu(16);}    if(Kbouton(1,btnC(),0)==1){menus=0;Etat=Etein;} break;
-                                case 1: Serial.print("Skin ");sonmenu(17);        if(Kbouton(1,btnC(),0)==1){ seq=skinselect; rotVal=skinselect;} break;
-                                case 2: Serial.print("Volume ");sonmenu(13);                 if(Kbouton(1,btnC(),0)==1){ seq=volum; rotVal=volum;} break;
-                                case 3: Serial.print("Sensibilité ");sonmenu(14);             if(Kbouton(1,btnC(),0)==1){ seq=sensi; rotVal=sensi;} break;
+                                case menu: Serial.print("Quiter ");  manchemenu(0);if(menus==0){delay(10);player.play(6);delay(2000); menus=1;}else{sonmenu(16);} 
+                                if(Kbouton(1,btnC(),0)==1){menus=0;Etat=Etein;player.play(20);
+                                                                     for(int i=0;i<=LED_MANCH;i++){noledmenu(i);}}  break;
+                                case 1: Serial.print("Skin ");       manchemenu(1);sonmenu(17);        if(Kbouton(1,btnC(),0)==1){ seq=skinselect; rotVal=skinselect;} break;
+                                case 2: Serial.print("Volume ");     manchemenu(2);sonmenu(13);                 if(Kbouton(1,btnC(),0)==1){ seq=volum; rotVal=volum;} break;
+                                case 3: Serial.print("Sensibilité ");manchemenu(3);sonmenu(14);             if(Kbouton(1,btnC(),0)==1){ seq=sensi; rotVal=sensi;} break;
 
                                 //________________Skin
-                                case skinselect/*60*/: Serial.print("Skin 1 ");sonmenu(7);  if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;skinnbr=1;} 
+                                case skinselect/*60*/: Serial.print("Skin 1 ");manchemenu(1);sonmenu(7);  if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;skinnbr=1;} 
                                 toutledal(skn1c1);
                                 break;
-                                case 61: Serial.print("Skin 2 ");sonmenu(8);                if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;skinnbr=2;} 
+                                case 61: Serial.print("Skin 2 ");manchemenu(2);sonmenu(8);                if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;skinnbr=2;} 
                                 toutledal(skn2c1);
                                 break;
-                                case 62: Serial.print("Skin 3 ");sonmenu(9);                if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;skinnbr=3;} 
+                                case 62: Serial.print("Skin 3 ");manchemenu(3);sonmenu(9);                if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;skinnbr=3;} 
                                 toutledal(skn3c1);
                                 break;
-                                case 63: Serial.print("Retour ");sonmenu(16);               if(Kbouton(1,btnC(),0)==1){ seq=menu; rotVal=menu;} 
+                                case 63: Serial.print("Retour ");manchemenu(0);sonmenu(16);               if(Kbouton(1,btnC(),0)==1){ seq=menu; rotVal=menu;} 
                                 nocolor();
                                 break;
 
                                 //______________________sousmenuskin
-                                case skinconf/*90*/: Serial.print("Activer Skin ");sonmenu(18); 
+                                case skinconf/*90*/: Serial.print("Activer Skin ");manchemenu(1);sonmenu(18); 
                                 
                                 if(Kbouton(1,btnC(),0)==1){ 
                                                             EEPROM.put(0,skinnbr);
@@ -75,11 +78,11 @@ unsigned char weriscolor;
                                   }
                                 
                                 break;
-                                case 91: Serial.print("Reglage ");sonmenu(19);                   if(Kbouton(1,btnC(),0)==1){ seq=skinregl; rotVal=skinregl;} break;
-                                case 92: Serial.print("Retour ");sonmenu(16);                    if(Kbouton(1,btnC(),0)==1){ seq=skinselect; rotVal=skinselect;} break;
+                                case 91: Serial.print("Reglage ");manchemenu(2);sonmenu(19);                   if(Kbouton(1,btnC(),0)==1){ seq=skinregl; rotVal=skinregl;} break;
+                                case 92: Serial.print("Retour ");manchemenu(0);sonmenu(16);                    if(Kbouton(1,btnC(),0)==1){ seq=skinselect; rotVal=skinselect;} break;
 
                                 //__________________________________sousmenuskin reglage couleur
-                                case skinregl/*120*/: Serial.print("Couleur 1 ");sonmenu(10); 
+                                case skinregl/*120*/: Serial.print("Couleur 1 ");manchemenu(1);sonmenu(10); 
                                 
                                                       if(skinnbr==1){toutledal(skn1c1);}
                                                       if(skinnbr==2){toutledal(skn2c1);}
@@ -93,7 +96,7 @@ unsigned char weriscolor;
                                                                                 }
                                 
                                 break;
-                                case 121: Serial.print("Couleur 2 ");sonmenu(11); 
+                                case 121: Serial.print("Couleur 2 ");manchemenu(2);sonmenu(11); 
                                 
                                                       if(skinnbr==1){toutledal(skn1c2);}
                                                       if(skinnbr==2){toutledal(skn2c2);}
@@ -106,7 +109,7 @@ unsigned char weriscolor;
                                                                                   if(skinnbr==3){rotVal=skn3c2;}
                                                                                 }
                                 break;
-                                case 122: Serial.print("Couleur effets ");sonmenu(12); 
+                                case 122: Serial.print("Couleur effets ");manchemenu(3);sonmenu(12); 
                                                       if(skinnbr==1){toutledal(skn1ce);}
                                                       if(skinnbr==2){toutledal(skn2ce);}
                                                       if(skinnbr==3){toutledal(skn3ce);}
@@ -118,9 +121,11 @@ unsigned char weriscolor;
                                                                                   if(skinnbr==3){rotVal=skn3ce;}
                                                                                 }
                                 break;
-                                case 123: Serial.print("Retour ");sonmenu(16);               if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;} break;
+                                case 123: Serial.print("Retour ");manchemenu(0);sonmenu(16);               if(Kbouton(1,btnC(),0)==1){ seq=skinconf; rotVal=skinconf;} break;
                                                                                  
-                                case 124:Serial.print("REglage color   ");  incrementC=7;
+                                case 124:Serial.print("REglage color   ");jaugebatterie(batlvl(),coul1sabre,coul2sabre);
+                                                                            
+                                                                            incrementC=7;
                                                                             Serial.print(Selectcodeur(1,765,1));
                                                                             toutledal(Selectcodeur(1,765,1));
                                 
@@ -162,9 +167,10 @@ unsigned char weriscolor;
                                                                                                                               }}                  
                                 break;
                                 //________________Menu volume
-                                case volum/*150*/: Serial.print("Regler le volume "); sonmenu(15);delay(2200);seq=151; player.loop(2); rotVal=volume;incrementC=1; break;
+                                case volum/*150*/:  break;
                                 case 151:
                                        Serial.print("Reglage le volume ");
+                                       jaugebatterie(batlvl(),coul1sabre,coul2sabre);
                                        if(millis() - timer > 500){ 
                                        volume=Selectcodeur(1,30,0);
                                        player.volume(volume); 
@@ -179,7 +185,8 @@ unsigned char weriscolor;
                                        
                                 break;
                                 //________________Menu Sensibilité
-                                case sensi/*180*/: Serial.print("Sensibilité ");sonmenu(14);break;
+                                case sensi/*180*/: Serial.print("Sensibilité ");jaugebatterie(batlvl(),coul1sabre,coul2sabre);
+                                                    sonmenu(14);break;
                                 
 
                                 //______________________sousmenusensibilite

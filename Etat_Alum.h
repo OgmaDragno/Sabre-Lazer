@@ -1,16 +1,20 @@
 
 unsigned char seq1;
+unsigned long timertest;
 
  void Etat_Alum(boolean bouton){
                    Serial.print("Alum   ");
+                   Serial.print(seq1);
+                   Serial.print(" <=Seq  ");
  
   
                  switch(seq1){
 
                           ///////////Ouverture
                           case 0:
-                                      delay(333);
+                                      delay(10);
                                       player.play(1);
+                                      delay(20);
                                       seq1++;
                                       
                           break;
@@ -24,18 +28,20 @@ unsigned char seq1;
                                      nocolor();
                                      seq1++;
                           break;
-                          case 4: Serial.print("attente"); if(Crono(650)==0){seq1++;} break;
+                          case 4: Serial.print("attente"); if(Crono(561)==0){seq1++;} break;
                                      
                           case 5:    
                                      Serial.print("lame");
                                      opensabr(0);
-                                     if(Crono(25)==0){seq1++;}
+                                     if(Crono(100)==0){seq1++;}
                                      
                           break;
                           case 6:
                                    Serial.print("lameeffet increment");
-                                   if(Crono(100)==0){seq1++;}//2300
-                                   effetwomble(coul1sabre,coul2sabre,0,5);
+                                   if(Crono(6000)==0){seq1++;}//2300
+                                   if(timertest<millis()){timertest=millis();}//////////////////???????????????????????????????????????????????????
+                                   else{Serial.print("  cronook");}
+                                   effetdemarage(10000,coul2sabre,coul1sabre);
                                    //AFAIREEEEEEEEEEEEEEEEEEE
                           break;
 
@@ -49,6 +55,7 @@ unsigned char seq1;
                                    Serial.print("lame wimble   Statik    moov=");
                                    //AFAIRE LED EFFECT
                                    effetwomble(coul1sabre,coul2sabre,0,5);
+                                   
 
                                    Gyro();
                                    
@@ -82,22 +89,43 @@ unsigned char seq1;
 
                           case 34:
                                Serial.print("Rengainer");
-                               fermsabr(aten,seq1);
-                               if (btnT()==0){seq1=7;}
-                               else{seq1++;aten=1;Serial.print(" OK");delay(1000);}
+                               if (fermsabr()==0){Serial.print(" OK");seq1++;x=10;delay(500);}  
+                               
+                               if(Crono(2000)==1){if (btnT()==0){seq1=7;x=NOMBRE_LED;}}
+                               //else{Serial.print(" OK");seq1++;delay(1000);}
                                
                                
                           break;
                           case 35:
+                               strip.setBrightness(255);
+                               
+                               if(millis() - timer3 > 700){ 
+                               strip.setPixelColor(x, strip.Color(0,  0,   0));
+                               x--;
+                               strip.show();
+                               if (x<=1){seq1++;}
+                               Serial.print(" X=  ");
+                               Serial.print(x);
+                               timer3=millis();} 
+                               
+
+                              
+                          
+                          break;
+                          case 36:
+                              delay(700);
                               Serial.print("Fermeture definitif");
                               nocolor();
                               Etat=Etein;
                               seq1=0;
-                              delay(1000);
+                              x=NOMBRE_LED;
+                              timerBA=1;
+                              timerB=1;
+                              delay(5000);
                           break;
                            }
 if(seq1>3 && seq1<33){
-       if(Kbouton(2,bouton,200)==1){seq1=33;}
+       if(Kbouton(2,bouton,2000)==1){seq1=33;}
        
   }
   

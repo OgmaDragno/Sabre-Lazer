@@ -11,8 +11,8 @@ volatile unsigned int rotVal = 0;
 
     
     //lire les signal A et B
-    boolean A_val = digitalRead(A1);
-    boolean B_val = digitalRead(A2);
+    boolean A_val = digitalRead(22);
+    boolean B_val = digitalRead(23);
 
   static unsigned long dateDernierChangement = 0;
  

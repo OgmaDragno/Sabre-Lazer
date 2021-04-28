@@ -5,6 +5,11 @@
   unsigned char R4;
   unsigned char V4;
   unsigned char B4;
+
+  unsigned char R5;
+  unsigned char V5;
+  unsigned char B5;
+  
   unsigned char Cal1;
   unsigned char Cal2;
 

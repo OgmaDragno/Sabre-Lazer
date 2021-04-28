@@ -6,10 +6,14 @@
 #include "Arduino.h"
 #include "DFRobotDFPlayerMini.h"
 
+//#include "AltSoftSerial.h" //gere les conflict serie dfplayer /encodeur
+//#include <SoftwareSerial.h>
+
 //PINMP3TX =8;
 //INMP3RX =9;
 AltSoftSerial softwareSerial;
-//SoftwareSerial softwareSerial(10,11);// RX,TX
+//#include <SoftwareSerial.h>
+//SoftwareSerial softwareSerial(10,11);// TX,RX
 //#define softwareSerial Serial1
 
 DFRobotDFPlayerMini player;
